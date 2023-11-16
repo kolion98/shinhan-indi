@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1101</width>
-    <height>837</height>
+    <height>619</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -78,7 +78,7 @@
      <x>20</x>
      <y>110</y>
      <width>541</width>
-     <height>192</height>
+     <height>181</height>
     </rect>
    </property>
    <property name="layoutDirection">
@@ -532,7 +532,7 @@
    </column>
    <column>
     <property name="text">
-     <string>과열정도</string>
+     <string>연간 검색정도</string>
     </property>
    </column>
    <column>
@@ -562,17 +562,17 @@
    </column>
    <column>
     <property name="text">
-     <string>5일MA</string>
+     <string extracomment="체결강도">5MA</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>20일MA</string>
+     <string>20MA</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>60일MA</string>
+     <string>60MA</string>
     </property>
    </column>
    <item row="0" column="0">
@@ -627,7 +627,7 @@
      <set>AlignTrailing|AlignVCenter</set>
     </property>
     <property name="flags">
-     <set>ItemIsSelectable|ItemIsEnabled</set>
+     <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
     </property>
    </item>
    <item row="0" column="5">
@@ -819,7 +819,7 @@
   <widget class="QPushButton" name="pushButton_getInfo">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>220</x>
      <y>360</y>
      <width>75</width>
      <height>31</height>
@@ -833,7 +833,7 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>540</y>
+     <y>560</y>
      <width>111</width>
      <height>41</height>
     </rect>
@@ -846,7 +846,7 @@
    <property name="geometry">
     <rect>
      <x>350</x>
-     <y>540</y>
+     <y>560</y>
      <width>111</width>
      <height>41</height>
     </rect>
@@ -859,7 +859,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>520</y>
+     <y>540</y>
      <width>91</width>
      <height>16</height>
     </rect>
@@ -872,7 +872,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>540</y>
+     <y>560</y>
      <width>181</width>
      <height>31</height>
     </rect>
@@ -882,7 +882,7 @@
    <property name="geometry">
     <rect>
      <x>480</x>
-     <y>540</y>
+     <y>560</y>
      <width>111</width>
      <height>41</height>
     </rect>
@@ -891,420 +891,31 @@
     <string>매도/매수 중지</string>
    </property>
   </widget>
-  <widget class="QTableWidget" name="tableWidget_acctInfo_2">
+  <widget class="QPushButton" name="pushButton_getInfoStop">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>360</y>
+     <width>75</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>조회 중지</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_noti">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>610</y>
-     <width>541</width>
-     <height>192</height>
+     <y>500</y>
+     <width>691</width>
+     <height>16</height>
     </rect>
    </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
+   <property name="text">
+    <string>※ '연간 검색정도' 는 네이버 검색량을 바탕으로, 지난 1년간 가장 검색량이 많았던 날을 100으로 하여 수치화한 데이터입니다.</string>
    </property>
-   <row>
-    <property name="text">
-     <string>1</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>2</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>3</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>4</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>5</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>6</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>7</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>8</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>9</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>10</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>11</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>12</string>
-    </property>
-   </row>
-   <row>
-    <property name="text">
-     <string>13</string>
-    </property>
-   </row>
-   <column>
-    <property name="text">
-     <string>종목코드</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>종목명</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>결제일잔고수량</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>현재가</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>평균단가</string>
-    </property>
-   </column>
-   <item row="0" column="2">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="0" column="3">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="0" column="4">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="1" column="2">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="1" column="3">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="1" column="4">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="2" column="2">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="2" column="3">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="2" column="4">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="3" column="2">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="3" column="3">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="3" column="4">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="4" column="2">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="4" column="3">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="4" column="4">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="5" column="2">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="5" column="3">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="5" column="4">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="6" column="2">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="6" column="3">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="6" column="4">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="7" column="2">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="7" column="3">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="7" column="4">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="8" column="2">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="8" column="3">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="8" column="4">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="9" column="2">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="9" column="3">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="9" column="4">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="10" column="2">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="10" column="3">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="10" column="4">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="11" column="2">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="11" column="3">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="11" column="4">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="12" column="2">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="12" column="3">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item row="12" column="4">
-    <property name="text">
-     <string/>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
   </widget>
  </widget>
  <resources/>

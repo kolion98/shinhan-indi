@@ -2,6 +2,8 @@ import sys
 import time
 import urllib.request
 import json
+import telegram
+import asyncio
 from datetime import datetime, timedelta
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
@@ -20,7 +22,7 @@ today_vp = y_ma5 = y_ma20 = y_ma60 = yesterday_vp = 0
 today_open_price = today_current_price = buy_qty = sell_qty = diff_ma5 = diff_ma20 = diff_ma60 = today_vp_min = today_vp_max = 0
 
 # 주문하기 위한 flag
-buy_flag = sell_flag = 0
+buy_flag = sell_flag = wasBuyOrder = wasSellOrder= 0
 
 # 폰트를 볼드체로 설정
 font = QFont()
@@ -33,9 +35,15 @@ RTOCX2 = giJongmokRealTime.NewGiExpertModule()
 main_ui = Ui_MainWindow()
 
 class indiWindow(QMainWindow):
+
     # UI 선언
     def __init__(self):
         super().__init__()
+
+        # 텔레그램 봇
+        self.telegramBot = telegram.Bot(token='6547864159:AAHJkaoRrs5np0Gg9huKS-EM7rTYpkSJHxk')
+        self.user_chat_id = 6973770263
+
         self.setWindowTitle("IndiExample")
         giJongmokTRShow.SetQtMode(True)
         giJongmokTRShow.RunIndiPython()
@@ -45,16 +53,21 @@ class indiWindow(QMainWindow):
         self.rqidD = {}
         main_ui.setupUi(self)      
 
+        # 조회버튼
         main_ui.pushButton_getBalance.clicked.connect(self.pushButton_getBalance_clicked)
         main_ui.pushButton_getInfo.clicked.connect(self.pushButton_getInfo_clicked)
-        # main_ui.pushButton_autoBuy.clicked.connect(self.pushButton_autoBuy_clicked)
-        # main_ui.pushButton_autoSell.clicked.connect(self.pushButton_autoSell_clicked)
 
+        # 자동 매수/매도 버튼
+        main_ui.pushButton_autoBuy.clicked.connect(self.pushButton_autoBuy_clicked)
+        main_ui.pushButton_autoSell.clicked.connect(self.pushButton_autoSell_clicked)
         # main_ui.pushButton_autoBuy.clicked.connect(self.pushButton_autoBuy2_clicked)
         # main_ui.pushButton_autoSell.clicked.connect(self.pushButton_autoSell2_clicked)
+        # main_ui.pushButton_autoBuy.clicked.connect(self.pushButton_autoBuy_test_clicked)
+        # main_ui.pushButton_autoSell.clicked.connect(self.pushButton_autoSell_test_clicked)
 
-        main_ui.pushButton_autoBuy.clicked.connect(self.pushButton_autoBuy_test_clicked)
-        main_ui.pushButton_autoSell.clicked.connect(self.pushButton_autoSell_test_clicked)
+        # 중지버튼
+        main_ui.pushButton_getInfoStop.clicked.connect(self.pushButton_stopGetInfo_clicked)
+        main_ui.pushButton_autoTrade_stop.clicked.connect(self.pushButton_stopAutoTrade_clicked)
 
         giJongmokTRShow.SetCallBack('ReceiveData', self.giJongmokTRShow_ReceiveData) #데이터 조회
 
@@ -64,13 +77,19 @@ class indiWindow(QMainWindow):
         print(giLogin.GetCommState())
         if giLogin.GetCommState() == 0: # 정상
             print("")        
-        elif  giLogin.GetCommState() == 1: # 비정상
-        #본인의 ID 및 PW 넣으셔야 합니다.
+        elif giLogin.GetCommState() == 1: # 비정상
+        #본인의 ID 및 PW
             login_return = giLogin.StartIndi('234109','test0365!','', 'C:\\SHINHAN-i\\indi\\GiExpertStarter.exe')
             if login_return == True:
                 print("INDI 로그인 정보","INDI 정상 호출")
+                asyncio.run(
+                    self.telegramBot.sendMessage(
+                        chat_id=self.user_chat_id,
+                        text=datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "\n\n신한 indi 로그인\n(본인이 아닐 경우 조치 요망) \n\n[고객센터]\n- 1588-0365"
+                    )
+                )
             else:
-                print("INDI 로그인 정보","INDI 호출 실패")                    
+                print("INDI 로그인 정보","INDI 호출 실패")
 
     def pushButton_getBalance_clicked(self):
         acctNo_text = main_ui.plainTextEdit_acctNo.toPlainText()
@@ -164,6 +183,14 @@ class indiWindow(QMainWindow):
         global buy_flag, sell_flag
         buy_flag = 1
         sell_flag = 0
+        # asyncio.run(
+        #     self.telegramBot.sendMessage(
+        #         chat_id=self.user_chat_id,
+        #         text=datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "\n\n신한 indi 체결강도 기반 자동 매도 시작\n-종목명: " 
+        #         + main_ui.tableWidget_stdbInfo.item(0,0).text()
+        #         + "\n-수량: " + main_ui.plainTextEdit_qty.toPlainText()
+        #     )
+        # )
 
     def pushButton_autoSell_clicked2(self):
         global today_vp, today_open_price, today_current_price, buy_qty, sell_qty, diff_ma5, diff_ma20, diff_ma60
@@ -329,20 +356,17 @@ class indiWindow(QMainWindow):
         print('Request Data rqid: ' + str(rqid))
         self.rqidD[rqid] = TR_Name      
         
-    def pushButton_autoTrade_stop_clicked(self):
+    def pushButton_stopAutoTrade_clicked(self):
         global buy_flag, sell_flag
         buy_flag = 0
         sell_flag = 0
 
-    def pushButton_2_clicked(self):      
-        jongmokCode = main_ui.textEdit_3.toPlainText()
-        rqid = giJongmokRealTime.RequestRTReg("SH",jongmokCode)
-        print(type(rqid))
-        print('Request Data rqid: ' + str(rqid))
+    def pushButton_stopGetInfo_clicked(self):
+        stbdCode_text = main_ui.plainTextEdit_stbdCode.toPlainText()
+        ret = RTOCX1.UnRequestRTReg("SH", stbdCode_text) # 등록을 해지
+        print("ret : " + str(ret)) # 디버깅용
 
-    def pushButton_3_clicked(self):
-        jongmokCode = main_ui.textEdit_3.toPlainText()
-        ret = giJongmokRealTime.UnRequestRTReg("SH", jongmokCode) # 등록을 해지한다!
+        ret = RTOCX2.UnRequestRTReg("SC", stbdCode_text) # 등록을 해지
         print("ret : " + str(ret)) # 디버깅용
 
     def giJongmokTRShow_ReceiveData(self,giCtrl,rqid):
@@ -441,7 +465,7 @@ class indiWindow(QMainWindow):
             global today_vp, y_ma5, y_ma20, y_ma60, yesterday_vp
             today_vp = df["체결강도"][0]
             yesterday_vp = df["체결강도"][1]
-            # 체결강도 이평선 구하기
+            # 체결강도 이평선 계산하기
             #당일 체결강도 이평선
             MA_5 = df['체결강도'][:5].sum()/5
             MA_20 = df['체결강도'][:20].sum()/20
@@ -521,7 +545,7 @@ class indiWindow(QMainWindow):
             nCnt = giCtrl.GetSingleRowCount()
             print("nCnt: ", nCnt)
             if nCnt == 0 : 
-                print("주문 실패")
+                print("넘어온 데이터가 없어요! 주문 실패")
             else :
                 if str(giCtrl.GetSingleData(0)) == "0" :
                     print("주문 실패!!")
